@@ -46,6 +46,12 @@ class Category(models.Model):
         verbose_name = "分类"
         verbose_name_plural = verbose_name
 
+    """
+    这里通过 verbose_name 来指定对应的 model 在 admin 后台的显示名称，
+    这里 verbose_name_plural 用来表示多篇文章时的复数显示形式。
+    英语中，如果有多篇文章，就会显示为 Posts，表示复数，中文没有复数表现形式，所以定义为和 verbose_name一样。
+    """
+
     def __str__(self):
         return self.name
 
@@ -116,6 +122,8 @@ class Post(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
+        """每一个 Model 都有一个 save 方法，这个方法包含了将 model 数据保存到数据库中的逻辑。
+        通过覆写这个方法，在 model 被 save 到数据库前指定 modified_time 的值为当前时间"""
         self.modified_time = timezone.now()
 
         # 首先实例化一个 Markdown 类，用于渲染 body 的文本。
@@ -129,12 +137,20 @@ class Post(models.Model):
         # 从文本摘取前 54 个字符赋给 excerpt
         self.excerpt = strip_tags(md.convert(self.body))[:54]
 
+        """要注意在指定完 modified_time 的值后，别忘了调用父类的 save 以执行数据保存回数据库的逻辑。"""
         super().save(*args, **kwargs)
 
     # 自定义 get_absolute_url 方法
     # 记得从 django.urls 中导入 reverse 函数
     def get_absolute_url(self):
-        return reverse("blog:detail", kwargs={"pk": self.pk})
+        """注意到 URL 配置中的 path('posts/<int:pk>/', views.detail, name='detail') ，我们设定的 name='detail' 在这里派上了用场。
+        看到这个 reverse 函数，它的第一个参数的值是 'blog:detail'，意思是 blog 应用下的 name=detail 的函数，
+        由于我们在上面通过 app_name = 'blog' 告诉了 django 这个 URL 模块是属于 blog 应用的，
+        因此 django 能够顺利地找到 blog 应用下 name 为 detail 的视图函数，于是 reverse 函数会去解析这个视图函数对应的 URL，
+        我们这里 detail 对应的规则就是 posts/<int:pk>/ int 部分会被后面传入的参数 pk 替换，
+        所以，如果 Post 的 id（或者 pk，这里 pk 和 id 是等价的） 是 255 的话，
+        那么 get_absolute_url 函数返回的就是 /posts/255/ ，这样 Post 自己就生成了自己的 URL。"""
+        return reverse("blog:detail", kwargs={"pk": self.pk})   # pk means primary key
 
     def increase_views(self):
         self.views += 1

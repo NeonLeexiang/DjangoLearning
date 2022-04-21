@@ -37,7 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'blog',     # 注意我们所有新建的app都需要在setting中将其添加进去。
+    'blog.apps.BlogConfig',     # 注意我们所有新建的app都需要在setting中将其添加进去。
+    'comments.apps.CommentsConfig',
+    'pure_pagination',  # 分页应用
+    # 'haystack',     # search
 ]
 
 MIDDLEWARE = [
@@ -128,3 +131,16 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# ---------------- 搜索设置
+# 搜索设置
+# HAYSTACK_CONNECTIONS = {
+#     'default': {
+#         'ENGINE': 'haystack.elasticsearch2_backend.Elasticsearch2SearchEngine',
+#         'URL': '',
+#         'INDEX_NAME': 'hellodjango_blog_tutorial',
+#     },
+# }
+# HAYSTACK_SEARCH_RESULTS_PER_PAGE = 10
+# HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
