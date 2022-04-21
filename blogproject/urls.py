@@ -14,8 +14,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('blog.urls')),
 ]
+
+
+"""
+    我们这里导入了一个 include 函数，然后利用这个函数把 blog 应用下的 urls.py 文件包含了进来。
+    此外 include 前还有一个 ''，这是一个空字符串。这里也可以写其它字符串，django 会把这个字符串和后面 include 的 urls.py 文件中的 URL 拼接。
+    比如说如果我们这里把 '' 改成 'blog/'，而我们在 blog\urls.py 中写的 URL 是 ''，即一个空字符串。
+    那么 django 最终匹配的就是 blog/ 加上一个空字符串，即 blog/。
+"""
