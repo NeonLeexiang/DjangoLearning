@@ -30,10 +30,18 @@
 - 项目 [源码仓库](https://github.com/HelloGitHub-Team/HelloDjango-blog-tutorial)
 - 项目 [前端模板源码仓库](https://github.com/zmrenwu/django-blog-tutorial-templates)
 
+---
 
 ## Records  
 
 * 0420: 开始整个项目并开始着手写文档。
+
+---
+
+## Start
+* `python manage.py runserver` 
+
+
 
 
 
