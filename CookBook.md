@@ -49,3 +49,8 @@ _这里一系列的知识可以补一下前端知识库_
 ## Step8. 开启评论功能
 这个评论功能需要创建成为应用。`python manage.py startapp comments`
 
+## Step9. 分离 `settings.py` 文件并为开发做准备
+`settings.py` 中很多设置本地和开发环境是不一样，为了方便后续的开发以及对应改动，我们分离设置文件为3个部分：
+- `common.py`
+- `local.py`
+- `production.py`
